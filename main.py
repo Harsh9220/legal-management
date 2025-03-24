@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends
-from routes import auth, admin, lawyer, staff, client, case, session, invoice, document
+from routes import auth, admin, lawyer, staff, client, case, session, invoice, document, task
 app = FastAPI(title="Legal Management System")
 
 @app.get("/")
@@ -15,3 +15,4 @@ app.include_router(case.router)
 app.include_router(session.router)
 app.include_router(invoice.router)
 app.include_router(document.router)
+app.include_router(task.router)
