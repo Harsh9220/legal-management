@@ -27,7 +27,7 @@ class Case(Base):
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
     created_at = Column(DateTime, server_default=func.now())
 
-    staff_members = relationship("User", secondary=case_staff, back_populates="assigned_cases", cascade="save-update,delete")
+    staff_members = relationship("User", secondary=case_staff, back_populates="assigned_cases", cascade="save-update")
     
     tasks = relationship("Task", backref="case", cascade="save-update,delete")
     sessions = relationship("Session", backref="case", cascade="save-update,delete")
