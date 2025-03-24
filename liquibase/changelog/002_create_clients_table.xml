@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog  
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog  
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="002_create_clients_table" author="harsh">
+    <createTable tableName="clients">
+      <column name="id" type="INT" autoIncrement="true">
+         <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="username" type="VARCHAR(100)">
+         <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="email" type="VARCHAR(150)">
+         <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="mobile_number" type="VARCHAR(50)">
+         <constraints nullable="false"/>
+      </column>
+      <column name="vat_percentage" type="VARCHAR(100)"/>
+      <column name="vat_number" type="VARCHAR(100)"/>
+      <column name="CR_number" type="VARCHAR(100)"/>
+      <column name="address" type="VARCHAR(255)"/>
+      <column name="name" type="VARCHAR(255)">
+         <constraints nullable="false"/>
+      </column>
+      <column name="is_blocked" type="BOOLEAN" defaultValueBoolean="false"/>
+      <column name="is_deleted" type="BOOLEAN" defaultValueBoolean="false"/>
+      <column name="updated_at" type="DATETIME">
+         <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="DATETIME">
+         <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <!-- Add defaults for timestamps -->
+  <changeSet id="002_add_default_updated_at_clients" author="harsh">
+    <addDefaultValue 
+         tableName="clients" 
+         columnName="updated_at" 
+         defaultValueComputed="CURRENT_TIMESTAMP"/>
+  </changeSet>
+  <changeSet id="002_add_default_created_at_clients" author="harsh">
+    <addDefaultValue 
+         tableName="clients" 
+         columnName="created_at" 
+         defaultValueComputed="CURRENT_TIMESTAMP"/>
+  </changeSet>
+</databaseChangeLog>

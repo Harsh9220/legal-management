@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog  
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog  
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="006_create_documents_table" author="harsh">
+    <createTable tableName="documents">
+      <column name="id" type="INT" autoIncrement="true">
+         <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="document_name" type="VARCHAR(255)">
+         <constraints nullable="false"/>
+      </column>
+      <column name="upload_date" type="DATE">
+         <constraints nullable="false"/>
+      </column>
+      <column name="uploader_id" type="INT">
+         <constraints nullable="false" foreignKeyName="fk_documents_users" references="users(id)"/>
+      </column>
+      <column name="case_id" type="INT">
+         <constraints nullable="false" foreignKeyName="fk_documents_cases" references="cases(id)"/>
+      </column>
+      <column name="updated_at" type="DATETIME">
+         <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="DATETIME">
+         <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <!-- 006-2: Add default for upload_date -->
+  <changeSet id="006_add_default_upload_date" author="harsh">
+    <addDefaultValue 
+         tableName="documents" 
+         columnName="upload_date" 
+         defaultValueComputed="CURRENT_DATE"/>
+  </changeSet>
+
+  <!-- 006-3: Add default for updated_at -->
+  <changeSet id="006_add_default_updated_at_documents" author="harsh">
+    <addDefaultValue 
+         tableName="documents" 
+         columnName="updated_at" 
+         defaultValueComputed="CURRENT_TIMESTAMP"/>
+  </changeSet>
+
+  <!-- 006-4: Add default for created_at -->
+  <changeSet id="006_add_default_created_at_documents" author="harsh">
+    <addDefaultValue 
+         tableName="documents" 
+         columnName="created_at" 
+         defaultValueComputed="CURRENT_TIMESTAMP"/>
+  </changeSet>
+</databaseChangeLog>

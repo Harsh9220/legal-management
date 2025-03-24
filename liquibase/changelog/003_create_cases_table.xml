@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog  
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog  
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="003_create_cases_table" author="harsh">
+    <createTable tableName="cases">
+      <column name="id" type="INT" autoIncrement="true">
+         <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="case_number" type="VARCHAR(255)">
+         <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="case_name" type="VARCHAR(255)">
+         <constraints nullable="false"/>
+      </column>
+      <column name="case_category" type="ENUM('theft','fraud','divorce')">
+         <constraints nullable="false"/>
+      </column>
+      <column name="case_stage" type="ENUM('appeal','first degree')">
+         <constraints nullable="false"/>
+      </column>
+      <column name="case_status" type="ENUM('open','closed')" defaultValue="open">
+         <constraints nullable="false"/>
+      </column>
+      <column name="issue_date" type="DATE">
+         <constraints nullable="false"/>
+      </column>
+      <column name="city_name" type="VARCHAR(255)"/>
+      <column name="client_id" type="INT">
+         <constraints nullable="false" foreignKeyName="fk_cases_clients" references="clients(id)"/>
+      </column>
+      <column name="lawyer_id" type="INT">
+         <constraints nullable="false" foreignKeyName="fk_cases_users" references="users(id)"/>
+      </column>
+      <column name="remarks" type="VARCHAR(255)"/>
+      <column name="is_deleted" type="BOOLEAN" defaultValueBoolean="false"/>
+      <column name="updated_at" type="DATETIME">
+         <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="DATETIME">
+         <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="003_create_case_staff_table" author="harsh">
+    <createTable tableName="case_staff">
+      <column name="case_id" type="INT">
+         <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="staff_id" type="INT">
+         <constraints primaryKey="true" nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="003_add_fk_case_staff_case" author="harsh">
+    <addForeignKeyConstraint 
+        baseTableName="case_staff" 
+        baseColumnNames="case_id"
+        referencedTableName="cases" 
+        referencedColumnNames="id"
+        constraintName="fk_case_staff_case"
+        onDelete="CASCADE"/>
+  </changeSet>
+
+  <changeSet id="003_add_fk_case_staff_user" author="harsh">
+    <addForeignKeyConstraint 
+        baseTableName="case_staff" 
+        baseColumnNames="staff_id"
+        referencedTableName="users" 
+        referencedColumnNames="id"
+        constraintName="fk_case_staff_user"
+        onDelete="CASCADE"/>
+  </changeSet>
+
+  <changeSet id="003_add_default_issue_date" author="harsh">
+    <addDefaultValue 
+         tableName="cases" 
+         columnName="issue_date" 
+         defaultValueComputed="CURRENT_DATE"/>
+  </changeSet>
+
+  <changeSet id="003_add_default_updated_at" author="harsh">
+    <addDefaultValue 
+         tableName="cases" 
+         columnName="updated_at" 
+         defaultValueComputed="CURRENT_TIMESTAMP"/>
+  </changeSet>
+
+  <changeSet id="003_add_default_created_at" author="harsh">
+    <addDefaultValue 
+         tableName="cases" 
+         columnName="created_at" 
+         defaultValueComputed="CURRENT_TIMESTAMP"/>
+  </changeSet>
+</databaseChangeLog>
