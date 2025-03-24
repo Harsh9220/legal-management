@@ -1,6 +1,7 @@
 from sqlalchemy import Column,Integer,String,DateTime,func, Boolean,Enum,Date,ForeignKey,Table
 from sqlalchemy.orm import relationship
 from database import Base
+from models.session import Session
 
 case_staff = Table("case_staff",Base.metadata,
     Column("case_id", Integer, ForeignKey("cases.id", ondelete="CASCADE"), primary_key=True),
